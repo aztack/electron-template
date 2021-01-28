@@ -9,7 +9,6 @@ $ npm i -g @vue/cli-init # install legacy vue cli init command
 
 $ vue init aztack/electron-template <dir>
 ? Project name, no space or punctuations, for example: my-project project-name-here
-? android package, for example: com.company.project
 ? Project description: My First Electron Project
 ? Author: developer-name <developer@company.com>
 ```
