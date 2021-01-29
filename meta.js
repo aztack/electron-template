@@ -1,5 +1,9 @@
 const $fs = require('fs');
 const $path = require('path');
+const log = console.log.bind(console);
+const npmMirrors = {
+  taobao: 'https://npm.taobao.org/mirrors/electron/'
+}
 
 module.exports = {
   "prompts": {
@@ -17,20 +21,29 @@ module.exports = {
     "author": {
       "type": "string",
       "label": "Author"
+    },
+    "mirror": {
+      "type": "boolean",
+      "label": "Use taobao.org mirror to download electron (Recommended if you are in China)?",
+      "default": false
     }
   },
   complete: function (data, opts) {
     const cwd = $path.join(process.cwd(), data.inPlace ? '' : data.destDirName);
     const name = data.name;
+    const projectPkgJson = $path.join(cwd, 'package.json');
+
+    if (data.mirror) {
+      process.env.ELECTRON_MIRROR = npmMirrors.taobao;
+    }
 
     process.chdir(cwd);
     const npm = require('npm');
-    const projectPkgJson = $path.join(cwd, 'package.json');
     npm.load(projectPkgJson, (err) => {
       if (!err) {
         npm.install(process.cwd(), (err) => {
           if (err) {
-            console.log(`Install package failed:`, err);
+            log(`Install package failed:`, err);
           } else {
             npm.commands.run(['start']);
           }
