@@ -5,7 +5,8 @@
   "main": "app/main.js",
   "scripts": {
     "start": "electron .",
-    "build": "tsc",
+    "build-ts": "tsc",
+    "build-webpack": "webpack --config ./webpack.config.js",
     "watch": "tsc -w",
     "lint": "eslint -c .eslintrc --ext .ts ./src"
   },
