@@ -2,14 +2,13 @@
   "name": "{{name}}",
   "version": "1.0.0",
   "description": "{{description}}",
-  "main": "main.js",
+  "main": "app/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "lint": "eslint -c .eslintrc --ext .ts ./src"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
-  "keywords": [],
-  "author": "{{author}}",
-  "devDependencies": {
-    "electron": "^11.2.1"
-  }
+  "keywords": ["electron"],
+  "author": "{{author}}"
 }
