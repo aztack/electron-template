@@ -70,7 +70,13 @@ module.exports = {
     ];
     process.chdir(cwd);
     exportNodePath();
-    const npm = require('npm');
+    let npm;
+    try {
+      npm = require('npm');
+    } catch (e) {
+      log(`Fail to load npm. Make sure you installed npm globally or 'export NODE_PATH=$NODE_PATH:$(npm -g root)'`);
+      process.exit(0);
+    }
 
     if (data.spectron) deps.push('spectron');
     if (!data.globalElectron) deps.push('electron');
