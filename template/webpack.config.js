@@ -1,7 +1,11 @@
 // webpack.config.js
 module.exports = [{
   mode: 'development',
-  entry: './src/main.ts',
+  entry: {
+    main: './src/main.ts', 
+    preload: './src/preload.ts',
+    renderer: './src/renderer.ts'
+  },
   target: 'electron-main',
   module: {
     rules: [{
@@ -12,6 +16,6 @@ module.exports = [{
   },
   output: {
     path: __dirname + '/app',
-    filename: 'main.js'
+    filename: '[name].js'
   }
 }];
