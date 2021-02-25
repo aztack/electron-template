@@ -98,17 +98,17 @@ module.exports = {
     } else {
       removeWebpackFiles(cwd);
     }
-    npm.load({}, (err) => {
+    npm.load((err) => {
       if (data.tnpm) npm.config.set('registry', npmRegistries.taobao);
       npm.config.set('save-dev', true);
       npm.config.set('verbose', true);
       if (!err) {
-        npm.install(process.cwd(), (err) => {
+        npm.commands.install([], (err) => {
           if (err) {
             log(`Install package failed:`, err);
           } else {
             installDeps(npm, () => {
-              if (data.globalElectron) npm.commands.link('electron');
+              if (data.globalElectron) npm.commands.link(['electron']);
               build(npm, data, () => npm.commands.run(['start']));
             });
           }
@@ -138,7 +138,7 @@ function removeWebpackFiles(cwd) {
 
 function build(npm, data, cb) {
   if (!data.webpack && data.lang != 'ts') cb();
-  npm.commands.run(data.webpack ? 'build-webpack' : 'build-ts', err => {
+  npm.commands.run(data.webpack ? ['build-webpack'] : ['build-ts'], err => {
     if (err) {
       console.error(`Build with Webpack failed:`, err);
     } else {
