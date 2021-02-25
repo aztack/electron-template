@@ -1,21 +1,33 @@
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
+const isDev = process.env.ENV === 'development';
 
 function createWindow() {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  let mainWindow = new BrowserWindow({
+    width: 800,
     height: 600,
+    minWidth: 400,
+    minHeight: 300,
     webPreferences: {
+      nodeIntegration: false, // will be deprecated in Electron 12
+      contextIsolation: true,
       preload: path.join(__dirname, "preload.js"),
     },
-    width: 800,
   });
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "index.html"));
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  if (isDev) mainWindow.webContents.openDevTools();
+
+  mainWindow.once('ready-to-show', () =>{
+    mainWindow.show();
+  });
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+  });
 }
 
 // This method will be called when Electron has finished
